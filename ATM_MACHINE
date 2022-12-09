@@ -1,0 +1,83 @@
+name=input("Please enter your name:")
+cash=5000
+if name=="" or name==" " or name[0].isdigit()==True:
+    name=input("Please Enter a Valid Name:")
+    print("Account name:",name)
+else:
+    print("Account name:", name)
+print("Cash available:",cash)
+print()
+stop=False
+
+def recall():
+        global stop
+        if stop==False:
+            c = input("Do you want to go back to main menu ? Y/N:")
+            if c == "Y" or c == "y":
+                mainui()
+            else:
+                print("Exiting...")
+        else:
+            print("Thanks for using our ATM !")
+            stop = True
+def withdraw():
+    print()
+    global stop
+    global cash
+
+    try:
+        withdrawal_amount=int(input("Enter amount to be withdrawn:"))
+        if withdrawal_amount<0:
+            withdrawal_amount = int(input("Invalid amount entered ! Please enter a valid amount :"))
+    except ValueError:
+        print("Please enter integer amount only !")
+        withdrawal_amount = int(input("Enter amount to be withdrawn:"))
+    if withdrawal_amount>cash:
+        print("Insufficient Balance")
+    elif withdrawal_amount<=cash:
+        cash-=withdrawal_amount
+        print(f"Withdrawal Successful of amount {withdrawal_amount}")
+        print("Balance remaining :",cash)
+        if cash<5000:
+            print("Low balance")
+            d = input("Want to deposit balance ? Y/N:")
+            if d == "Y" or d == "y":
+                deposit()
+                stop=True
+        while stop==False:
+            recall()
+            stop = True
+
+def deposit():
+    global cash
+    global stop
+    try:
+        deposit_amount=int(input("Enter amount to be deposited:"))
+    except ValueError:
+        print("Please enter integer amount only !")
+        deposit_amount = int(input("Enter amount to be deposited:"))
+    cash+=deposit_amount
+    print("Available balance:",cash)
+    global count
+    if stop==False:
+        recall()
+        stop=True
+
+def mainui():
+    print("1.Withdraw cash")
+    print("2.Deposit cash")
+    try:
+        choice = int(input("Enter numerical inputs only for the selecting menus:"))
+    except ValueError:
+        choice = int(input("Invalid input ! Please enter integer value only:"))
+    if choice == 1:
+        withdraw()
+    elif choice == 2:
+        deposit()
+    else:
+        print("Invalid selection")
+        recall()
+
+
+
+mainui()
